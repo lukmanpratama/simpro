@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -42,4 +43,18 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+    public function owner():HasOne
+    {
+    	return $this->hasOne(Owner::class);
+    }
+
+    public function manager():HasOne
+    {
+    	return $this->hasOne(Manager::class);
+    }
+
+    public function member():HasOne
+    {
+    	return $this->hasOne(Member::class);
+    }
 }

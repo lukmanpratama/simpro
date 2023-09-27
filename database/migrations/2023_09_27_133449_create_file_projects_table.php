@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('file_projects', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('project_id')->constrained('projects')->cascadeOnDelete();
+            $table->string('file');
+            $table->string('keterangan');
             $table->timestamps();
         });
     }
