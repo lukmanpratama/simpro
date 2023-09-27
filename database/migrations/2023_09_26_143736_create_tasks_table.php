@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('project_id')->constrained('projects')->cascadeOnDelete();
+            $table->string('task_name');
+            $table->integer('progress');
+            $table->string('status');
             $table->timestamps();
         });
     }
