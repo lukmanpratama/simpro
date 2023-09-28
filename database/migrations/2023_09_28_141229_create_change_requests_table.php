@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('change_requests', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('team_id')->constrained('teams')->cascadeOnDelete();
+            $table->text('deskripsi');
+            $table->string('file');
             $table->timestamps();
         });
     }

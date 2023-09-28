@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('meetings', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('project_id')->constrained('projects')->cascadeOnDelete();
+            $table->string('meeting_name');
+            $table->string('agenda');
+            $table->string('link');
+            $table->dateTime('time');
             $table->timestamps();
         });
     }
