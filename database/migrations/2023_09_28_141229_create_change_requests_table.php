@@ -11,11 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('file_projects', function (Blueprint $table) {
+        Schema::create('change_requests', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('project_id')->constrained('projects')->cascadeOnDelete();
-            $table->string('file');
-            $table->string('keterangan');
             $table->timestamps();
         });
     }
@@ -25,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('file_projects');
+        Schema::dropIfExists('change_requests');
     }
 };

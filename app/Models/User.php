@@ -3,11 +3,14 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
+use App\Models\Owner;
+use App\Models\Member;
+use App\Models\Manager;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
@@ -48,13 +51,4 @@ class User extends Authenticatable
     	return $this->hasOne(Owner::class);
     }
 
-    public function manager():HasOne
-    {
-    	return $this->hasOne(Manager::class);
-    }
-
-    public function member():HasOne
-    {
-    	return $this->hasOne(Member::class);
-    }
 }
