@@ -4,11 +4,9 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Models\Owner;
-use App\Models\Member;
-use App\Models\Manager;
+use App\Models\Project;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -46,9 +44,9 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
-    public function owner():HasOne
+    public function projects()
     {
-    	return $this->hasOne(Owner::class);
+    	return $this->belongsToMany(Project::class, 'teams');
     }
 
 }
