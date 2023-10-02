@@ -1,27 +1,28 @@
 <?php
 
-namespace App\Http\Middleware;
+namespace App\Livewire\Auth;
 
-use App\Providers\RouteServiceProvider;
-use Closure;
-use Illuminate\Http\Request;
+use Livewire\Component;
+use Livewire\Attributes\Rule;
+use Livewire\Attributes\Title;
+use Livewire\Attributes\Layout;
 use Illuminate\Support\Facades\Auth;
-use Symfony\Component\HttpFoundation\Response;
 
-class RedirectIfAuthenticated
+#[Title('Login')]
+#[Layout('layouts.guest')]
+class Login extends Component
 {
-    /**
-     * Handle an incoming request.
-     *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
-     */
-    public function handle(Request $request, Closure $next, string ...$guards): Response
-    {
-        $guards = empty($guards) ? [null] : $guards;
+    #[Rule('required', 'email')]
+    public string $email ='';
 
-        foreach ($guards as $guard) {
-            if (Auth::guard($guard)->check()) {
-                if (auth()->user()->role == 'admin')
+    #[Rule('required')]
+    public string $password ='';
+
+    public function login()
+    {
+        if (Auth::attempt( $this->validate()))
+        {
+            if (auth()->user()->role == 'admin')
             {
                 return redirect()->route('admin.home');
             }
@@ -42,9 +43,10 @@ class RedirectIfAuthenticated
                 Auth::logout();
                 return redirect()->route('login');
             }
-            }
         }
-
-        return $next($request);
+    }
+    public function render()
+    {
+        return view('livewire.auth.login');
     }
 }
