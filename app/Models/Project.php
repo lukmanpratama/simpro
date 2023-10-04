@@ -9,10 +9,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Project extends Model
 {
-    use HasFactory;
+    protected $fillable = ['project_name','deskripsi', 'status'];
+
     public function users()
     {
-    	return $this->belongsToMany(User::class, 'teams');
+    	return $this->belongsToMany(User::class, 'teams', 'project_id', 'user_id')->withTimestamps();
     }
 
     public function files()

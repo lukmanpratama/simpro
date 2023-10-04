@@ -46,7 +46,7 @@ class User extends Authenticatable
     ];
     public function projects()
     {
-    	return $this->belongsToMany(Project::class, 'teams');
+    	return $this->belongsToMany(Project::class, 'teams', 'user_id', 'project_id')->withTimestamps();
     }
 
 }

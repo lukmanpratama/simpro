@@ -2,6 +2,8 @@
 
 namespace App\Livewire\Owner;
 
+use App\Models\Team;
+use App\Models\User;
 use App\Models\Project;
 use Livewire\Component;
 use Livewire\Attributes\Rule;
@@ -43,11 +45,13 @@ class Proyek extends Component
     public function store()
     {
         $this->validate();
-        $proyek = Auth::user()->projects()->create([
+        $proyek = Project::create([
             'project_name' => $this->nama_proyek,
             'deskripsi' => $this->deskripsi_proyek,
+            'status' => 'to do',
         ]);
 
+        $proyek->users()->sync(auth()->user()->id);
         session()->flash('Proyek created successfully', 'success');
 
         $this->reset('nama_proyek','deskripsi_proyek', 'proyekId');
@@ -69,12 +73,12 @@ class Proyek extends Component
         if ($this->proyekId) {
             $proyek = Project::findOrFail($this->proyekId);
             $proyek->update([
-                'title' => $this->title,
-                'body' => $this->body,
+                'project_name' => $this->nama_proyek,
+                'deskripsi' => $this->deskripsi_proyek,
             ]);
             session()->flash('success', 'Post updated successfully.');
             $this->closeModal();
-            $this->reset('title', 'body', 'postId');
+            $this->reset('nama_proyek','deskripsi_proyek', 'proyekId');
         }
     }
 
@@ -87,21 +91,17 @@ class Proyek extends Component
 
     public function render()
     {
-        $proyeks = Project::where('user_id', '=', Auth::id())
+        $proyeks = User::find(auth()->id())->projects()
         ->when($this->search, function ($search)
         {
             $search->where(function ($search)
             {
-                $search->where('title', 'like', '%'.$this->search.'%');
-            })
-            ->orWhereHas('user', function ($search)
-            {
-                $search->where('id', auth()->id(),'name', 'like', '%'.$this->search.'%');
+                $search->where('nama_proyek', 'like', '%'.$this->search.'%');
             });
         },fn ($search) =>$search->latest())
         ->paginate($this->limit);
 
-        return view('livewire.admin.proyek',
+        return view('livewire.owner.proyek',
         [
             'proyeks' => $proyeks,
         ]);
