@@ -23,6 +23,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
     ];
 
     /**
@@ -46,7 +47,7 @@ class User extends Authenticatable
     ];
     public function projects()
     {
-    	return $this->belongsToMany(Project::class, 'teams', 'user_id', 'project_id')->withTimestamps();
+    	return $this->belongsToMany(Project::class, 'teams')->withTimestamps();
     }
 
 }

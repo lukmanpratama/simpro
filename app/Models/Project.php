@@ -13,7 +13,7 @@ class Project extends Model
 
     public function users()
     {
-    	return $this->belongsToMany(User::class, 'teams', 'project_id', 'user_id')->withTimestamps();
+    	return $this->belongsToMany(User::class, 'teams')->withTimestamps();
     }
 
     public function files()

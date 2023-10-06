@@ -7,8 +7,10 @@ use App\Models\User;
 use App\Models\Project;
 use Livewire\Component;
 use Livewire\Attributes\Rule;
+use Livewire\Attributes\Title;
 use Illuminate\Support\Facades\Auth;
 
+#[Title('Owner')]
 class Proyek extends Component
 {
 
@@ -62,8 +64,8 @@ class Proyek extends Component
     {
         $proyek = Project::findOrFail($id);
         $this->proyekId = $id;
-        $this->nama_proyek = $proyek->nama_proyek;
-        $this->deskripsi_proyek = $proyek->deskripsi_proyek;
+        $this->nama_proyek = $proyek->project_name;
+        $this->deskripsi_proyek = $proyek->deskripsi;
 
         $this->openModal();
     }
@@ -86,7 +88,7 @@ class Proyek extends Component
     {
         Project::find($id)->delete();
         session()->flash('success', 'Post deleted successfully.');
-        $this->reset('title','body');
+        $this->reset('nama_proyek','deskripsi_proyek');
     }
 
     public function render()
