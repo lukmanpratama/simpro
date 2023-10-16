@@ -22,26 +22,26 @@ class RedirectIfAuthenticated
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
                 if (auth()->user()->role == 'admin')
-            {
-                return redirect()->route('admin.home');
-            }
-            else if (auth()->user()->role == 'manager')
-            {
-                return redirect()->route('manager.home');
-            }
-            else if (auth()->user()->role == 'team')
-            {
-                return redirect()->route('team.home');
-            }
-            else if (auth()->user()->role == 'owner')
-            {
-               return redirect()->route('owner.home');
-            }
-            else
-            {
-                Auth::logout();
-                return redirect()->route('login');
-            }
+                {
+                    return redirect()->route('admin.home');
+                }
+                else if (auth()->user()->role == 'manager')
+                {
+                    return redirect()->route('manager.home');
+                }
+                else if (auth()->user()->role == 'team')
+                {
+                    return redirect()->route('team.home');
+                }
+                else if (auth()->user()->role == 'owner')
+                {
+                return redirect()->route('owner.home');
+                }
+                else
+                {
+                    Auth::logout();
+                    return redirect()->route('login');
+                }
             }
         }
 
